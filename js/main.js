@@ -1,16 +1,10 @@
 // JavaScript Document
 
+// variables
+var audio = new Audio();
+var i= 0;
 
 
-
-
-
-function Single(artist, song, audio, picture){
-	this.artist = artist;
-	this.song = song;
-	this.audio = audio;	
-	this.picture = picture;
-}
 
 // two Single objects
 var single1 = new Single("Elvis Presley", "In the ghetto", "audio/elvis.mp3", "img/elvis.jpg");
@@ -22,77 +16,75 @@ SingleList[0] = single1;
 SingleList[1] = single2;
 
 
-// variables
-var audio = new Audio();
-var i= 0;
-var nowplay = document.getElementById("nowplay");
+// Singe class
+function Single(artist, song, audio, picture){
+	this.artist = artist;
+	this.song = song;
+	this.audio = audio;	
+	this.picture = picture;
+}
 
+// Single class methods
+Single.prototype.artistSong = function(){
+	return this.artist + " - " + this.song;	
+}
+
+
+// Methods
+
+// Change picture, audiofile and text 
+function getAll(){
+	var pictures = document.getElementById("picture");
+	audio.src = SingleList[i].audio;
+	pictures.src = SingleList[i].picture;
+	$('#nowplay').html(SingleList[i].artistSong());
+	
+	audio.play();
+
+}
+
+//----------------------------------------------------------------
+
+// JQuery
 $(document).ready(function() {
 	
+	
+	// PLAY BUTTON ACTION
 	$('#play').on('click', function(){
-		
-
 		if(i <= SingleList.length){
-				audio.src = SingleList[i].audio;
-				audio.play();
-				var nowplay = document.getElementById("nowplay");
-				nowplay.innerHTML = SingleList[i].artist + " - " + SingleList[i].song ;
-				
-				var picture = document.getElementById("picture");
-				picture.src = SingleList[i].picture;
+			
+				getAll();			
 				
 		}else{
 			i = 0;
-			audio.src = SingleList[i].audio;
-			audio.play();
-			var nowplay = document.getElementById("nowplay");
-			nowplay.innerHTML = SingleList[i].artist + " - " + SingleList[i].song ;
-			
-			var picture = document.getElementById("picture");
-				picture.src = SingleList[i].picture;
+			getAll();
 		}
 
-			
 		});
 		
-		$('#stop').on('click', function(){
+		// STOP BUTTON ACTION
+		
+	$('#stop').on('click', function(){
 			
 			audio.pause();
 		});
-		
+
+		// NEXT BUTTON ACTION
 		$('#next').on('click', function(){
 			i++;
 			if(i<=SingleList.length -1 ){
-				audio.src = SingleList[i].audio;
-				audio.play();
-				var nowplay = document.getElementById("nowplay");
-				nowplay.innerHTML = SingleList[i].artist + " - " + SingleList[i].song ;
-				
-				var picture = document.getElementById("picture");
-				picture.src = SingleList[i].picture;
-				
-				
+				getAll();
+
 			}else{
 				i = 0;
-				audio.src = SingleList[i].audio;
-				audio.play();
-				var nowplay = document.getElementById("nowplay");
-				nowplay.innerHTML = SingleList[i].artist + " - " + SingleList[i].song ;
-				
-				var picture = document.getElementById("picture");
-				picture.src = SingleList[i].picture;
-				
-			}
-			
-			
-		});
-	
-	
-	
-	
-	
+				getAll();
 
-    
+			}
+
+		});
+
 });
+
+
 
 
